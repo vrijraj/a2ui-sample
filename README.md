@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# A2UI × Next.js example
 
-## Getting Started
+A minimal [Next.js](https://nextjs.org) app that demonstrates [A2UI](https://a2ui.org/) — a protocol for agents to send **declarative UI** that clients render with native components.
 
-First, run the development server:
+This example uses:
+
+- `@a2ui/react` + `@a2ui/web_core` (v0.9 protocol)
+- **[shadcn/ui](https://ui.shadcn.com/)** for structure (Button, Card, Input, Badge, …)
+- **Google-style CSS** (Roboto, Google Blue, Material-like elevation) — no `@mui/*`
+- A mock agent API (`/api/a2ui`) that streams A2UI messages over SSE
+- A restaurant booking flow (search → form → confirmation)
+
+No Gemini/OpenAI key is required. The “agent” returns handcrafted A2UI JSON so you can learn the message shape end-to-end.
+
+## Run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What to try
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Click **Find Italian restaurants** — the agent streams `createSurface` / `updateComponents` / `updateDataModel` messages and the React renderer builds a list of cards.
+2. Click **Book a table** on a restaurant — the client sends an A2UI action; the mock agent responds with a reservation form.
+3. Submit the form — the agent returns a confirmation surface.
 
-## Learn More
+## How it works
 
-To learn more about Next.js, take a look at the following resources:
+```
+User prompt / UI action
+        │
+        ▼
+ POST /api/a2ui  ──SSE──►  MessageProcessor.processMessages()
+                                    │
+                                    ▼
+                              A2uiSurface (native React widgets)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Key files:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Path | Role |
+| --- | --- |
+| `src/components/A2uiDemo.tsx` | Client: processor, SSE consumer, surface render |
+| `src/app/api/a2ui/route.ts` | Mock agent that streams A2UI JSON |
+| `src/lib/a2ui/scenarios.ts` | Declarative UI payloads for each step |
 
-## Deploy on Vercel
+## Next steps
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Swap the mock route for a real LLM agent that emits the same A2UI message types ([spec](https://a2ui.org/specification/v0.9.1-a2ui/)).
+- Add a custom catalog beyond the Basic Catalog ([guide](https://a2ui.org/guides/client-setup/)).
+- Use A2A / CopilotKit transports if you need a full agent harness ([docs](https://a2ui.org/guides/a2ui-with-any-agent-framework/)).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+Example code in this repo is for learning. A2UI itself is Apache 2.0 ([a2ui.org](https://a2ui.org/)).

@@ -1,26 +1,716 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ── Google-inspired design tokens (CSS only, no Material React) ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --g-blue: #1a73e8;
+  --g-blue-hover: #174ea6;
+  --g-blue-pressed: #1967d2;
+  --g-blue-soft: #e8f0fe;
+  --g-blue-soft-hover: #d2e3fc;
+  --g-ink: #202124;
+  --g-ink-secondary: #5f6368;
+  --g-ink-disabled: #9aa0a6;
+  --g-border: #dadce0;
+  --g-border-strong: #bdc1c6;
+  --g-surface: #ffffff;
+  --g-canvas: #f8f9fa;
+  --g-error: #d93025;
+  --g-error-soft: #fce8e6;
+  --g-success: #188038;
+
+  --g-shadow-1:
+    0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --g-shadow-2:
+    0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  --g-shadow-3:
+    0 1px 3px 0 rgba(60, 64, 67, 0.3),
+    0 4px 8px 3px rgba(60, 64, 67, 0.15);
+
+  --background: var(--g-canvas);
+  --foreground: var(--g-ink);
+  --card: var(--g-surface);
+  --card-foreground: var(--g-ink);
+  --popover: var(--g-surface);
+  --popover-foreground: var(--g-ink);
+  --primary: var(--g-blue);
+  --primary-foreground: #ffffff;
+  --secondary: var(--g-blue-soft);
+  --secondary-foreground: var(--g-blue);
+  --muted: #f1f3f4;
+  --muted-foreground: var(--g-ink-secondary);
+  --accent: var(--g-blue-soft);
+  --accent-foreground: var(--g-blue);
+  --destructive: var(--g-error);
+  --border: var(--g-border);
+  --input: var(--g-border);
+  --ring: color-mix(in srgb, var(--g-blue) 35%, transparent);
+  --chart-1: var(--g-blue);
+  --chart-2: #34a853;
+  --chart-3: #fbbc04;
+  --chart-4: #ea4335;
+  --chart-5: #5f6368;
+  --radius: 0.75rem;
+  --sidebar: var(--g-surface);
+  --sidebar-foreground: var(--g-ink);
+  --sidebar-primary: var(--g-blue);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--g-blue-soft);
+  --sidebar-accent-foreground: var(--g-blue);
+  --sidebar-border: var(--g-border);
+  --sidebar-ring: color-mix(in srgb, var(--g-blue) 35%, transparent);
+
+  /* A2UI Basic Catalog ← Google tokens */
+  --a2ui-color-background: var(--g-canvas);
+  --a2ui-color-on-background: var(--g-ink);
+  --a2ui-color-surface: var(--g-surface);
+  --a2ui-color-on-surface: var(--g-ink);
+  --a2ui-color-primary: var(--g-blue);
+  --a2ui-color-primary-light: #8ab4f8;
+  --a2ui-color-primary-dark: var(--g-blue-hover);
+  --a2ui-color-primary-hover: var(--g-blue-hover);
+  --a2ui-color-on-primary: #ffffff;
+  --a2ui-color-secondary: #e8eaed;
+  --a2ui-color-on-secondary: #3c4043;
+  --a2ui-color-border: var(--g-border);
+  --a2ui-color-input: var(--g-surface);
+  --a2ui-color-on-input: var(--g-ink);
+  --a2ui-border-radius: 12px;
+  --a2ui-border: 1px solid var(--g-border);
+  --a2ui-font-family-title: var(--font-sans), Roboto, "Helvetica Neue", Arial, sans-serif;
+  --a2ui-font-size: 0.9375rem;
+  --a2ui-grid-base: 0.5rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans), Roboto, "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: 0.015em;
+    -webkit-font-smoothing: antialiased;
+  }
+  html {
+    @apply font-sans;
+  }
+  a {
+    color: var(--g-blue);
+  }
+  a:hover {
+    text-decoration: underline;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── App shell ── */
+.g-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 70% 40% at 0% 0%, #e8f0fe 0%, transparent 55%),
+    radial-gradient(ellipse 50% 30% at 100% 0%, #f1f3f4 0%, transparent 50%),
+    var(--g-canvas);
+}
+
+.g-appbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--g-surface) 92%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--g-border);
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08);
+}
+
+.g-appbar-inner {
+  margin-inline: auto;
+  max-width: 72rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-inline: 20px;
+}
+
+.g-appbar-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--g-blue-soft);
+  color: var(--g-blue);
+}
+
+.g-appbar-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--g-ink);
+  line-height: 1.25;
+}
+
+.g-appbar-subtitle {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--g-ink-secondary);
+}
+
+.g-main {
+  margin-inline: auto;
+  max-width: 72rem;
+  padding: 24px 20px 40px;
+  display: grid;
+  gap: 20px;
+}
+
+.g-lede {
+  margin: 0;
+  max-width: 42rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--g-ink-secondary);
+}
+
+.g-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+}
+
+@media (max-width: 900px) {
+  .g-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── shadcn slots → Google look ── */
+[data-slot="card"] {
+  background: var(--g-surface) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--g-shadow-1) !important;
+  ring: none !important;
+  outline: none;
+  border: 0 !important;
+  --card-spacing: 1.25rem;
+}
+
+[data-slot="card-title"] {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+  color: var(--g-ink);
+}
+
+[data-slot="card-description"] {
+  color: var(--g-ink-secondary) !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.45;
+}
+
+[data-slot="button"] {
+  border-radius: 24px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease,
+    color 120ms ease;
+}
+
+[data-slot="button"]:not(:disabled):hover {
+  box-shadow: var(--g-shadow-1);
+}
+
+[data-slot="button"][data-variant="default"],
+[data-slot="button"].bg-primary {
+  background: var(--g-blue) !important;
+  color: #fff !important;
+}
+
+[data-slot="button"]:is(.bg-primary):not(:disabled):hover,
+button[data-slot="button"]:where(:not([class*="outline"]):not([class*="ghost"]):not([class*="secondary"])):hover {
+  background: var(--g-blue-hover) !important;
+}
+
+[data-slot="button"]:where(.border),
+[data-slot="button"][class*="outline"] {
+  border: 1px solid var(--g-border) !important;
+  background: var(--g-surface) !important;
+  color: var(--g-blue) !important;
+}
+
+[data-slot="button"]:where(.border):not(:disabled):hover,
+[data-slot="button"][class*="outline"]:not(:disabled):hover {
+  background: var(--g-blue-soft) !important;
+  border-color: var(--g-blue-soft) !important;
+  box-shadow: none;
+}
+
+[data-slot="input"] {
+  height: 44px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--g-border) !important;
+  background: var(--g-surface) !important;
+  padding-inline: 14px !important;
+  font-size: 0.9375rem !important;
+  color: var(--g-ink) !important;
+  box-shadow: none !important;
+}
+
+[data-slot="input"]:hover:not(:disabled):not(:focus-visible) {
+  border-color: var(--g-border-strong) !important;
+}
+
+[data-slot="input"]:focus-visible {
+  border-color: var(--g-blue) !important;
+  box-shadow: 0 0 0 1px var(--g-blue) !important;
+  outline: none !important;
+  ring: none !important;
+}
+
+[data-slot="badge"] {
+  border-radius: 999px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em;
+  height: auto !important;
+  padding: 4px 10px !important;
+}
+
+[data-slot="badge"][class*="secondary"] {
+  background: var(--g-blue-soft) !important;
+  color: var(--g-blue) !important;
+}
+
+[data-slot="badge"][class*="outline"] {
+  border: 1px solid var(--g-border) !important;
+  color: var(--g-ink-secondary) !important;
+  background: var(--g-surface) !important;
+}
+
+[data-slot="alert"] {
+  border-radius: 12px !important;
+  border: 1px solid transparent !important;
+}
+
+[data-slot="separator"] {
+  background: var(--g-border) !important;
+}
+
+/* Chat bubbles */
+.g-chat-scroll {
+  height: 20rem;
+  border-radius: 12px;
+  border: 1px solid var(--g-border);
+  background: #fafbfc;
+}
+
+.g-bubble {
+  border-radius: 12px;
+  border: 1px solid var(--g-border);
+  padding: 12px 14px;
+  background: var(--g-surface);
+}
+
+.g-bubble[data-role="user"] {
+  background: var(--g-blue-soft);
+  border-color: color-mix(in srgb, var(--g-blue) 18%, var(--g-border));
+}
+
+.g-bubble[data-role="agent"] {
+  background: #fff;
+}
+
+.g-bubble-role {
+  margin: 0 0 4px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--g-ink-secondary);
+}
+
+.g-bubble-text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--g-ink);
+}
+
+.g-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.g-composer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ── A2UI surface (Google-styled widgets) ── */
+.a2ui-container {
+  border: 1px solid var(--g-border);
+  border-radius: 16px;
+  background: var(--g-surface);
+  min-height: 20rem;
+  padding: 1.25rem;
+}
+
+.a2ui-container .a2ui-surface {
+  font-family: var(--font-sans), Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--g-ink);
+}
+
+.a2ui-container .a2ui-column {
+  gap: 16px !important;
+}
+
+.a2ui-container .a2ui-card {
+  border-radius: 12px !important;
+  border: 0 !important;
+  box-shadow: var(--g-shadow-1) !important;
+  overflow: hidden;
+  background: var(--g-surface) !important;
+}
+
+/* Buttons (CSS modules are empty in published @a2ui/react — style native button) */
+.a2ui-container button:not(.chip):not(.a2ui-tab-button):not(.a2ui-modal-close) {
+  appearance: none;
+  border: 0;
+  border-radius: 24px;
+  min-height: 40px;
+  padding: 0 24px;
+  background: var(--g-blue);
+  color: #fff;
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: var(--g-shadow-1);
+  transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.a2ui-container button:not(.chip):not(.a2ui-tab-button):not(.a2ui-modal-close):hover {
+  background: var(--g-blue-hover);
+}
+
+.a2ui-container button:not(.chip):disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Labels above fields */
+.a2ui-container label,
+.a2ui-container strong {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--g-ink-secondary);
+  letter-spacing: 0.01em;
+  margin-bottom: 2px;
+}
+
+/* Text fields / textareas (modules empty — target element types) */
+.a2ui-container input[type="text"],
+.a2ui-container input[type="password"],
+.a2ui-container input[type="number"],
+.a2ui-container input[type="email"],
+.a2ui-container input[type="search"],
+.a2ui-container input:not([type]),
+.a2ui-container textarea,
+.a2ui-container .a2ui-date-time-input,
+.a2ui-container select {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 48px;
+  margin-top: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--g-border);
+  border-radius: 8px;
+  background: var(--g-surface);
+  color: var(--g-ink);
+  font: inherit;
+  font-size: 0.9375rem;
+  outline: none;
+  transition:
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.a2ui-container textarea {
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.a2ui-container input[type="text"]:hover,
+.a2ui-container input[type="password"]:hover,
+.a2ui-container input[type="number"]:hover,
+.a2ui-container input:not([type]):hover,
+.a2ui-container textarea:hover,
+.a2ui-container .a2ui-date-time-input:hover,
+.a2ui-container select:hover {
+  border-color: var(--g-border-strong);
+}
+
+.a2ui-container input[type="text"]:focus,
+.a2ui-container input[type="password"]:focus,
+.a2ui-container input[type="number"]:focus,
+.a2ui-container input:not([type]):focus,
+.a2ui-container textarea:focus,
+.a2ui-container .a2ui-date-time-input:focus,
+.a2ui-container select:focus {
+  border-color: var(--g-blue);
+  box-shadow: 0 0 0 1px var(--g-blue);
+}
+
+/* Native select (dropdown) — Google outlined look */
+.a2ui-container select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--g-ink-secondary) 50%),
+    linear-gradient(135deg, var(--g-ink-secondary) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* Choice chips (literal .chip / .selected classes from A2UI) */
+.a2ui-container .chip {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 16px;
+  margin: 0 8px 8px 0;
+  border-radius: 999px;
+  border: 1px solid var(--g-border);
+  background: var(--g-surface);
+  color: var(--g-ink);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  box-shadow: none !important;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.a2ui-container .chip:hover {
+  background: var(--g-blue-soft);
+  border-color: color-mix(in srgb, var(--g-blue) 35%, var(--g-border));
+  color: var(--g-blue);
+}
+
+.a2ui-container .chip.selected,
+.a2ui-container .chip[aria-pressed="true"] {
+  background: var(--g-blue-soft) !important;
+  border-color: var(--g-blue) !important;
+  color: var(--g-blue) !important;
+  box-shadow: inset 0 0 0 1px var(--g-blue);
+}
+
+/* Radio / checkbox option rows */
+.a2ui-container label:has(> input[type="radio"]),
+.a2ui-container label:has(> input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  margin: 0 0 4px;
+  padding: 0 14px;
+  border: 1px solid var(--g-border);
+  border-radius: 12px;
+  background: var(--g-surface);
+  color: var(--g-ink);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.a2ui-container label:has(> input[type="radio"]):hover,
+.a2ui-container label:has(> input[type="checkbox"]):hover {
+  background: #fafbfc;
+  border-color: var(--g-border-strong);
+}
+
+.a2ui-container label:has(> input[type="radio"]:checked),
+.a2ui-container label:has(> input[type="checkbox"]:checked) {
+  background: var(--g-blue-soft);
+  border-color: var(--g-blue);
+  box-shadow: inset 0 0 0 1px var(--g-blue);
+  color: var(--g-ink);
+}
+
+.a2ui-container input[type="radio"],
+.a2ui-container input[type="checkbox"] {
+  appearance: none;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 2px solid var(--g-border-strong);
+  background: var(--g-surface);
+  display: grid;
+  place-content: center;
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease;
+}
+
+.a2ui-container input[type="radio"] {
+  border-radius: 50%;
+}
+
+.a2ui-container input[type="checkbox"] {
+  border-radius: 4px;
+}
+
+.a2ui-container input[type="radio"]::before,
+.a2ui-container input[type="checkbox"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  transform: scale(0);
+  transition: transform 120ms ease;
+}
+
+.a2ui-container input[type="radio"]::before {
+  border-radius: 50%;
+  background: var(--g-blue);
+}
+
+.a2ui-container input[type="checkbox"]::before {
+  width: 11px;
+  height: 11px;
+  background:
+    linear-gradient(var(--g-blue), var(--g-blue)) center / 100% 100% no-repeat;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  background-color: var(--g-blue);
+}
+
+.a2ui-container input[type="radio"]:checked,
+.a2ui-container input[type="checkbox"]:checked {
+  border-color: var(--g-blue);
+}
+
+.a2ui-container input[type="checkbox"]:checked {
+  background: var(--g-blue);
+  border-color: var(--g-blue);
+}
+
+.a2ui-container input[type="checkbox"]:checked::before {
+  transform: scale(1);
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.a2ui-container input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.a2ui-container input[type="radio"]:focus-visible,
+.a2ui-container input[type="checkbox"]:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--g-blue) 45%, transparent);
+  outline-offset: 2px;
+}
+
+/* ChoicePicker chip rows */
+.a2ui-container div:has(> .chip) {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-top: 6px;
+}
+
+/* Slider */
+.a2ui-container input[type="range"] {
+  width: 100%;
+  accent-color: var(--g-blue);
+  margin-top: 8px;
+}
+
+/* Tabs */
+.a2ui-container .a2ui-tab-button {
+  border-radius: 0 !important;
+  min-height: 40px !important;
+  background: transparent !important;
+  color: var(--g-ink-secondary) !important;
+  box-shadow: none !important;
+  border-bottom: 2px solid transparent !important;
+}
+
+.a2ui-container .a2ui-tab-button.active {
+  color: var(--g-blue) !important;
+  border-bottom-color: var(--g-blue) !important;
 }
